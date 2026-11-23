@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marco Bidoia | Economics &amp; Econometrics</title>
+  <meta name="description" content="Marco Bidoia — Ph.D. Candidate in Economics at Ca' Foscari University of Venice. Research in time-series econometrics, extreme value theory, environmental statistics, and score-driven models for climate and financial extremes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #0d1117;
+      --bg-surface: #141922;
+      --bg-surface-hover: #1b2230;
+      --text-main: #e6edf3;
+      --text-muted: #9da7b3;
+      --text-light: #768390;
+      --accent: #6ea8fe;
+      --accent-hover: #9ec5fe;
+      --accent-soft: rgba(110, 168, 254, 0.14);
+      --border: #262e3d;
+      --font-serif: 'Source Serif 4', Georgia, Cambria, 'Times New Roman', serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --max-width: 1060px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      background-color: #0d1117 !important;
+      color: #e6edf3 !important;
+    }
+
+    html, body {
+      background-color: #0d1117 !important;
+      color: #e6edf3 !important;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Fixed background layer strictly behind all foreground content (Active across ALL tabs) */
+    .bg-distributions {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background-color: #0d1117;
+      display: block;
+    }
+
+    .dist-float {
+      position: absolute;
+      opacity: 0.21;
+      fill: none;
+      pointer-events: none;
+    }
+
+    .dist-float.dist-mid {
+      opacity: 0.14;
+    }
+
+    .dist-float text {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-style: italic;
+      font-size: 10.5px;
+      stroke: none;
+    }
+
+    .formula-float {
+      position: absolute;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-style: italic;
+      opacity: 0.20;
+      user-select: none;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+      pointer-events: none;
+    }
+
+    .formula-float.formula-mid {
+      opacity: 0.14;
+    }
+
+    .formula-float .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      font-size: 0.78em;
+      line-height: 1.08;
+      margin: 0 0.16em;
+    }
+
+    .formula-float .frac > span:first-child {
+      border-bottom: 1px solid currentColor;
+      padding: 0 0.2em 1px;
+    }
+
+    .formula-float .frac > span:last-child {
+      padding: 1px 0.2em 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+
+    /* Sticky Top Navigation above background layer */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 17, 23, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #262e3d;
+    }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0.95rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .site-brand {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+      cursor: pointer;
+    }
+
+    .site-brand:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.2rem 0;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .nav-tab:hover, .nav-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* Main two-column page container above background distributions */
+    .page-container {
+      position: relative;
+      z-index: 2;
+      max-width: 1060px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 3.25rem;
+      align-items: start;
+    }
+
+    /* Left Profile Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 5.2rem;
+      z-index: 3;
+    }
+
+    .avatar-wrap {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--border);
+      margin-bottom: 1.15rem;
+      background-color: var(--bg-surface);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+    }
+
+    .author-name {
+      font-family: var(--font-serif);
+      font-size: 1.48rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+
+    .author-role {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin: 0 0 0.95rem;
+      line-height: 1.45;
+    }
+
+    .author-meta {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.25rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .author-meta li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .author-meta svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 3px;
+      color: var(--accent);
+    }
+
+    .sidebar-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.48rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: rgba(20, 25, 34, 0.94);
+      color: var(--text-main);
+      transition: all 0.15s ease;
+    }
+
+    .btn-link:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .btn-link svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    /* Main Content Area */
+    .main-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .main-content h1 {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      color: #fde68a;
+      letter-spacing: -0.01em;
+    }
+
+    .main-content h2 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 2.2rem 0 0.85rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+      color: #fde68a;
+    }
+
+    .main-content h2:first-child {
+      margin-top: 0;
+    }
+
+    /* Warm Champagne / Ivory specifically for the Welcome/Introduction paragraphs */
+    .lead-bio p {
+      margin: 0 0 0.95rem;
+      font-size: 0.98rem;
+      color: #e7e5e4;
+    }
+
+    .lead-bio strong {
+      color: #fafaf9;
+    }
+
+    /* Tags */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.85rem 0 1.6rem;
+    }
+
+    .tag {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(110, 168, 254, 0.25);
+      font-size: 0.84rem;
+      font-weight: 500;
+      padding: 0.28rem 0.72rem;
+      border-radius: 999px;
+    }
+
+    /* Job Market Paper Card */
+    .jmp-card {
+      background: rgba(20, 25, 34, 0.95);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      margin: 0.9rem 0 1.6rem;
+    }
+
+    .jmp-badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 0.18rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .paper-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 0.3rem;
+      color: var(--text-main);
+    }
+
+    .paper-authors {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin: 0 0 0.35rem;
+    }
+
+    .paper-venue {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 0 0 0.75rem;
+    }
+
+    .paper-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.26rem 0.68rem;
+      border-radius: 4px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: rgba(13, 17, 23, 0.85);
+      transition: all 0.15s ease;
+    }
+
+    .pill-btn:hover {
+      background: var(--accent);
+      color: #0d1117;
+      text-decoration: none;
+    }
+
+    details.abstract-box {
+      margin-top: 0.75rem;
+      font-size: 0.91rem;
+      color: var(--text-muted);
+    }
+
+    details.abstract-box summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.85rem;
+      user-select: none;
+    }
+
+    details.abstract-box p {
+      margin: 0.55rem 0 0;
+      padding: 0.75rem 0.9rem;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .paper-item {
+      margin-bottom: 1.4rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .paper-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Entries */
+    .entry-block {
+      margin-bottom: 1.15rem;
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .entry-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: var(--text-main);
+    }
+
+    .entry-date {
+      font-size: 0.86rem;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    .entry-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .small-link {
+      font-size: 0.8rem;
+      word-break: break-all;
+      display: inline-block;
+      margin-top: 0.2rem;
+    }
+
+    /* News Section */
+    .news-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .news-list li {
+      display: grid;
+      grid-template-columns: 98px 1fr;
+      gap: 0.85rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.93rem;
+      align-items: baseline;
+      color: #d5dde6;
+    }
+
+    .news-list li:last-child {
+      border-bottom: none;
+    }
+
+    .news-date {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.86rem;
+    }
+
+    details.older-news {
+      margin-top: 0.75rem;
+    }
+
+    details.older-news summary {
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent);
+      user-select: none;
+      padding: 0.3rem 0;
+    }
+
+    details.older-news .news-list {
+      margin-top: 0.4rem;
+    }
+
+    /* Embedded Google Drive CV */
+    .cv-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      background: rgba(20, 25, 34, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .cv-frame-wrap {
+      width: 100%;
+      height: 820px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg-surface);
+    }
+
+    .cv-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Footer above background layer */
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.84rem;
+      color: var(--text-light);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 820px) {
+      .page-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 1.5rem;
+      }
+
+      .sidebar {
+        position: static;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .avatar-wrap {
+        width: 145px;
+        height: 145px;
+      }
+
+      .sidebar-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .news-list li {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+
+      .cv-frame-wrap {
+        height: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scattered Multi-Color Statistical Distributions & Probability Formulas Background (Active on ALL tabs) -->
+  <div class="bg-distributions" id="scattered-distributions-bg" aria-hidden="true">
+    <!-- 1. Top-left Gaussian / Normal PDF with X & Y Axes (Cyan) -->
+    <svg class="dist-float" style="top: 5%; left: 1.5%; width: 230px; transform: rotate(-5deg);" viewBox="0 0 240 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="120" y1="98" x2="120" y2="8" stroke="#38bdf8" stroke-width="1.2"/>
+      <polygon points="120,5 117,11 123,11" fill="#38bdf8"/>
+      <line x1="14" y1="92" x2="230" y2="92" stroke="#38bdf8" stroke-width="1.2"/>
+      <polygon points="234,92 228,89 228,95" fill="#38bdf8"/>
+      <line x1="70" y1="90" x2="70" y2="95" stroke="#38bdf8" stroke-width="1"/>
+      <line x1="170" y1="90" x2="170" y2="95" stroke="#38bdf8" stroke-width="1"/>
+      <text x="125" y="13" fill="#38bdf8">f(x)</text>
+      <text x="225" y="104" fill="#38bdf8">x</text>
+      <text x="117" y="104" fill="#38bdf8">&mu;</text>
+      <path d="M 20.0,92.0 L 22.5,91.9 L 25.1,91.8 L 27.6,91.7 L 30.1,91.5 L 32.7,91.3 L 35.2,91.0 L 37.7,90.7 L 40.3,90.3 L 42.8,89.8 L 45.3,89.2 L 47.8,88.5 L 50.4,87.6 L 52.9,86.6 L 55.4,85.4 L 58.0,84.0 L 60.5,82.4 L 63.0,80.5 L 65.6,78.5 L 68.1,76.2 L 70.6,73.6 L 73.2,70.8 L 75.7,67.7 L 78.2,64.4 L 80.8,60.9 L 83.3,57.2 L 85.8,53.4 L 88.4,49.5 L 90.9,45.5 L 93.4,41.5 L 95.9,37.6 L 98.5,33.8 L 101.0,30.3 L 103.5,27.0 L 106.1,24.0 L 108.6,21.4 L 111.1,19.3 L 113.7,17.7 L 116.2,16.6 L 118.7,16.0 L 121.3,16.0 L 123.8,16.6 L 126.3,17.7 L 128.9,19.3 L 131.4,21.4 L 133.9,24.0 L 136.5,27.0 L 139.0,30.3 L 141.5,33.8 L 144.1,37.6 L 146.6,41.5 L 149.1,45.5 L 151.6,49.5 L 154.2,53.4 L 156.7,57.2 L 159.2,60.9 L 161.8,64.4 L 164.3,67.7 L 166.8,70.8 L 169.4,73.6 L 171.9,76.2 L 174.4,78.5 L 177.0,80.5 L 179.5,82.4 L 182.0,84.0 L 184.6,85.4 L 187.1,86.6 L 189.6,87.6 L 192.2,88.5 L 194.7,89.2 L 197.2,89.8 L 199.7,90.3 L 202.3,90.7 L 204.8,91.0 L 207.3,91.3 L 209.9,91.5 L 212.4,91.7 L 214.9,91.8 L 217.5,91.9 L 220.0,92.0 L 220.0,92.0 L 20.0,92.0 Z" fill="rgba(56, 189, 248, 0.16)" stroke="none"/>
+      <path d="M 20.0,92.0 L 22.5,91.9 L 25.1,91.8 L 27.6,91.7 L 30.1,91.5 L 32.7,91.3 L 35.2,91.0 L 37.7,90.7 L 40.3,90.3 L 42.8,89.8 L 45.3,89.2 L 47.8,88.5 L 50.4,87.6 L 52.9,86.6 L 55.4,85.4 L 58.0,84.0 L 60.5,82.4 L 63.0,80.5 L 65.6,78.5 L 68.1,76.2 L 70.6,73.6 L 73.2,70.8 L 75.7,67.7 L 78.2,64.4 L 80.8,60.9 L 83.3,57.2 L 85.8,53.4 L 88.4,49.5 L 90.9,45.5 L 93.4,41.5 L 95.9,37.6 L 98.5,33.8 L 101.0,30.3 L 103.5,27.0 L 106.1,24.0 L 108.6,21.4 L 111.1,19.3 L 113.7,17.7 L 116.2,16.6 L 118.7,16.0 L 121.3,16.0 L 123.8,16.6 L 126.3,17.7 L 128.9,19.3 L 131.4,21.4 L 133.9,24.0 L 136.5,27.0 L 139.0,30.3 L 141.5,33.8 L 144.1,37.6 L 146.6,41.5 L 149.1,45.5 L 151.6,49.5 L 154.2,53.4 L 156.7,57.2 L 159.2,60.9 L 161.8,64.4 L 164.3,67.7 L 166.8,70.8 L 169.4,73.6 L 171.9,76.2 L 174.4,78.5 L 177.0,80.5 L 179.5,82.4 L 182.0,84.0 L 184.6,85.4 L 187.1,86.6 L 189.6,87.6 L 192.2,88.5 L 194.7,89.2 L 197.2,89.8 L 199.7,90.3 L 202.3,90.7 L 204.8,91.0 L 207.3,91.3 L 209.9,91.5 L 212.4,91.7 L 214.9,91.8 L 217.5,91.9 L 220.0,92.0" stroke="#38bdf8" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 1: Normal PDF (Top-center-left, Cyan) -->
+    <div class="formula-float" style="top: 12.5%; left: 20%; font-size: 0.92rem; color: #38bdf8; transform: rotate(-3deg);">
+      f(x) = <span class="frac"><span>1</span><span>&radic;(2&pi;&sigma;&sup2;)</span></span> exp(&minus;<span class="frac"><span>(x &minus; &mu;)&sup2;</span><span>2&sigma;&sup2;</span></span>)
+    </div>
+
+    <!-- Formula 1B (Center-Top): Conditional Information Matrix (Sky Blue) -->
+    <div class="formula-float formula-mid" style="top: 9.5%; left: 48%; font-size: 0.9rem; color: #60a5fa; transform: rotate(2deg);">
+      &#x2110;<sub>t|t&minus;1</sub> = E<sub>t&minus;1</sub>[&nabla;<sub>t</sub> &nabla;<sub>t</sub>&prime;] &nbsp;&middot;&nbsp; S<sub>t</sub> = &#x2110;<sub>t|t&minus;1</sub><sup>&minus;1/2</sup>
+    </div>
+
+    <!-- NEW Center-Upper Distribution: Generalized Pareto Distribution (GPD / Peaks-Over-Threshold) (Sky Blue) -->
+    <svg class="dist-float dist-mid" style="top: 18%; left: 43%; width: 245px; transform: rotate(-3deg);" viewBox="0 0 245 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="98" x2="24" y2="8" stroke="#60a5fa" stroke-width="1.2"/>
+      <polygon points="24,5 21,11 27,11" fill="#60a5fa"/>
+      <line x1="16" y1="92" x2="234" y2="92" stroke="#60a5fa" stroke-width="1.2"/>
+      <polygon points="238,92 232,89 232,95" fill="#60a5fa"/>
+      <line x1="58" y1="26" x2="58" y2="95" stroke="#60a5fa" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="29" y="13" fill="#60a5fa">g<tspan dy="3" font-size="8">u</tspan><tspan dy="-3">(y)</tspan></text>
+      <text x="55" y="104" fill="#60a5fa">u</text>
+      <text x="228" y="104" fill="#60a5fa">y</text>
+      <path d="M 24.0,16.0 L 32.0,22.4 L 40.0,28.4 L 48.0,34.0 L 58.0,40.4 L 68.0,46.2 L 78.0,51.5 L 88.0,56.3 L 98.0,60.6 L 108.0,64.5 L 118.0,68.0 L 128.0,71.2 L 138.0,74.0 L 148.0,76.5 L 158.0,78.8 L 168.0,80.8 L 178.0,82.6 L 188.0,84.2 L 198.0,85.6 L 208.0,86.8 L 218.0,87.9 L 226.0,88.7 L 226.0,92.0 L 24.0,92.0 Z" fill="rgba(96, 165, 250, 0.16)" stroke="none"/>
+      <path d="M 58.0,40.4 L 68.0,46.2 L 78.0,51.5 L 88.0,56.3 L 98.0,60.6 L 108.0,64.5 L 118.0,68.0 L 128.0,71.2 L 138.0,74.0 L 148.0,76.5 L 158.0,78.8 L 168.0,80.8 L 178.0,82.6 L 188.0,84.2 L 198.0,85.6 L 208.0,86.8 L 218.0,87.9 L 226.0,88.7 L 226.0,92.0 L 58.0,92.0 Z" fill="rgba(96, 165, 250, 0.22)" stroke="none"/>
+      <path d="M 24.0,16.0 L 32.0,22.4 L 40.0,28.4 L 48.0,34.0 L 58.0,40.4 L 68.0,46.2 L 78.0,51.5 L 88.0,56.3 L 98.0,60.6 L 108.0,64.5 L 118.0,68.0 L 128.0,71.2 L 138.0,74.0 L 148.0,76.5 L 158.0,78.8 L 168.0,80.8 L 178.0,82.6 L 188.0,84.2 L 198.0,85.6 L 208.0,86.8 L 218.0,87.9 L 226.0,88.7" fill="none" stroke="#60a5fa" stroke-width="1.8"/>
+    </svg>
+
+    <!-- NEW Upper-Center-Left Distribution: Log-Normal / Skewed Tail PDF (Pink-Rose) -->
+    <svg class="dist-float dist-mid" style="top: 29%; left: 22%; width: 220px; transform: rotate(4deg);" viewBox="0 0 225 110" xmlns="http://www.w3.org/2000/svg">
+      <line x1="22" y1="96" x2="22" y2="8" stroke="#f472b6" stroke-width="1.2"/>
+      <polygon points="22,5 19,11 25,11" fill="#f472b6"/>
+      <line x1="14" y1="90" x2="215" y2="90" stroke="#f472b6" stroke-width="1.2"/>
+      <polygon points="219,90 213,87 213,93" fill="#f472b6"/>
+      <text x="27" y="13" fill="#f472b6">ln N(&mu;, &sigma;<tspan dy="-3" font-size="7">2</tspan><tspan dy="3">)</tspan></text>
+      <text x="209" y="102" fill="#f472b6">x</text>
+      <path d="M 22.0,90.0 L 25.0,84.0 L 28.0,68.0 L 32.0,45.0 L 37.0,26.0 L 42.0,17.5 L 48.0,16.5 L 55.0,21.0 L 63.0,28.5 L 72.0,37.0 L 82.0,45.5 L 93.0,53.5 L 105.0,60.5 L 118.0,66.5 L 132.0,71.5 L 147.0,75.8 L 163.0,79.3 L 180.0,82.2 L 198.0,84.5 L 210.0,85.8 L 210.0,90.0 L 22.0,90.0 Z" fill="rgba(244, 114, 182, 0.15)" stroke="none"/>
+      <path d="M 22.0,90.0 L 25.0,84.0 L 28.0,68.0 L 32.0,45.0 L 37.0,26.0 L 42.0,17.5 L 48.0,16.5 L 55.0,21.0 L 63.0,28.5 L 72.0,37.0 L 82.0,45.5 L 93.0,53.5 L 105.0,60.5 L 118.0,66.5 L 132.0,71.5 L 147.0,75.8 L 163.0,79.3 L 180.0,82.2 L 198.0,84.5 L 210.0,85.8" fill="none" stroke="#f472b6" stroke-width="1.8"/>
+    </svg>
+
+    <!-- 2. Top-right Gumbel Extreme Value PDF with X & Y Axes (Amber Gold) -->
+    <svg class="dist-float" style="top: 7%; right: 2%; width: 245px; transform: rotate(5deg);" viewBox="0 0 245 114" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="102" x2="24" y2="8" stroke="#fbbf24" stroke-width="1.2"/>
+      <polygon points="24,5 21,11 27,11" fill="#fbbf24"/>
+      <line x1="16" y1="96" x2="236" y2="96" stroke="#fbbf24" stroke-width="1.2"/>
+      <polygon points="240,96 234,93 234,99" fill="#fbbf24"/>
+      <line x1="67" y1="94" x2="67" y2="99" stroke="#fbbf24" stroke-width="1"/>
+      <line x1="145" y1="94" x2="145" y2="99" stroke="#fbbf24" stroke-width="1"/>
+      <text x="29" y="13" fill="#fbbf24">g(x)</text>
+      <text x="230" y="108" fill="#fbbf24">x</text>
+      <text x="64" y="108" fill="#fbbf24">&mu;</text>
+      <path d="M 24.0,95.9 L 26.6,95.1 L 29.1,93.9 L 31.7,92.2 L 34.2,89.8 L 36.8,86.7 L 39.3,82.8 L 41.9,78.2 L 44.5,72.9 L 47.0,67.1 L 49.6,60.9 L 52.1,54.4 L 54.7,48.0 L 57.2,41.8 L 59.8,36.1 L 62.4,30.9 L 64.9,26.3 L 67.5,22.6 L 70.0,19.7 L 72.6,17.6 L 75.1,16.4 L 77.7,16.0 L 80.3,16.3 L 82.8,17.3 L 85.4,18.8 L 87.9,20.8 L 90.5,23.3 L 93.0,26.0 L 95.6,29.1 L 98.2,32.2 L 100.7,35.5 L 103.3,38.9 L 105.8,42.2 L 108.4,45.6 L 110.9,48.8 L 113.5,52.0 L 116.1,55.1 L 118.6,58.0 L 121.2,60.8 L 123.7,63.5 L 126.3,66.0 L 128.8,68.4 L 131.4,70.6 L 133.9,72.7 L 136.5,74.6 L 139.1,76.4 L 141.6,78.1 L 144.2,79.7 L 146.7,81.1 L 149.3,82.4 L 151.8,83.7 L 154.4,84.8 L 157.0,85.8 L 159.5,86.8 L 162.1,87.7 L 164.6,88.5 L 167.2,89.2 L 169.7,89.9 L 172.3,90.5 L 174.9,91.1 L 177.4,91.6 L 180.0,92.0 L 182.5,92.5 L 185.1,92.9 L 187.6,93.2 L 190.2,93.6 L 192.8,93.9 L 195.3,94.1 L 197.9,94.4 L 200.4,94.6 L 203.0,94.8 L 205.5,95.0 L 208.1,95.2 L 210.7,95.3 L 213.2,95.5 L 215.8,95.6 L 218.3,95.7 L 220.9,95.8 L 223.4,95.9 L 226.0,96.0 L 226.0,96.0 L 24.0,96.0 Z" fill="rgba(251, 191, 36, 0.16)" stroke="none"/>
+      <path d="M 24.0,95.9 L 26.6,95.1 L 29.1,93.9 L 31.7,92.2 L 34.2,89.8 L 36.8,86.7 L 39.3,82.8 L 41.9,78.2 L 44.5,72.9 L 47.0,67.1 L 49.6,60.9 L 52.1,54.4 L 54.7,48.0 L 57.2,41.8 L 59.8,36.1 L 62.4,30.9 L 64.9,26.3 L 67.5,22.6 L 70.0,19.7 L 72.6,17.6 L 75.1,16.4 L 77.7,16.0 L 80.3,16.3 L 82.8,17.3 L 85.4,18.8 L 87.9,20.8 L 90.5,23.3 L 93.0,26.0 L 95.6,29.1 L 98.2,32.2 L 100.7,35.5 L 103.3,38.9 L 105.8,42.2 L 108.4,45.6 L 110.9,48.8 L 113.5,52.0 L 116.1,55.1 L 118.6,58.0 L 121.2,60.8 L 123.7,63.5 L 126.3,66.0 L 128.8,68.4 L 131.4,70.6 L 133.9,72.7 L 136.5,74.6 L 139.1,76.4 L 141.6,78.1 L 144.2,79.7 L 146.7,81.1 L 149.3,82.4 L 151.8,83.7 L 154.4,84.8 L 157.0,85.8 L 159.5,86.8 L 162.1,87.7 L 164.6,88.5 L 167.2,89.2 L 169.7,89.9 L 172.3,90.5 L 174.9,91.1 L 177.4,91.6 L 180.0,92.0 L 182.5,92.5 L 185.1,92.9 L 187.6,93.2 L 190.2,93.6 L 192.8,93.9 L 195.3,94.1 L 197.9,94.4 L 200.4,94.6 L 203.0,94.8 L 205.5,95.0 L 208.1,95.2 L 210.7,95.3 L 213.2,95.5 L 215.8,95.6 L 218.3,95.7 L 220.9,95.8 L 223.4,95.9 L 226.0,96.0" stroke="#fbbf24" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 2: GEV / Gumbel CDF (Upper-right, Amber Gold) -->
+    <div class="formula-float" style="top: 25%; right: 4%; font-size: 0.9rem; color: #fbbf24; transform: rotate(4deg);">
+      G(x) = exp&lbrace;&minus;[1 + &xi;(<span class="frac"><span>x &minus; &mu;</span><span>&sigma;</span></span>)]<sup>&minus;1/&xi;</sup>&rbrace;
+    </div>
+
+    <!-- Formula 2B (Dead-Center Upper): Score-Driven Gradient & Scaling (Teal) -->
+    <div class="formula-float formula-mid" style="top: 37%; left: 46%; font-size: 0.9rem; color: #2dd4bf; transform: rotate(-2deg);">
+      s<sub>t</sub> = S<sub>t</sub> &nabla;<sub>t</sub>, &nbsp; &nabla;<sub>t</sub> = <span class="frac"><span>&part; ln p(y<sub>t</sub> | f<sub>t</sub>)</span><span>&part; f<sub>t</sub></span></span>
+    </div>
+
+    <!-- NEW Dead-Center Distribution: Weibull / Fréchet Extreme Value Density (Teal) -->
+    <svg class="dist-float dist-mid" style="top: 43%; left: 37%; width: 255px; transform: rotate(-4deg);" viewBox="0 0 255 114" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="100" x2="24" y2="8" stroke="#2dd4bf" stroke-width="1.2"/>
+      <polygon points="24,5 21,11 27,11" fill="#2dd4bf"/>
+      <line x1="16" y1="94" x2="242" y2="94" stroke="#2dd4bf" stroke-width="1.2"/>
+      <polygon points="246,94 240,91 240,97" fill="#2dd4bf"/>
+      <line x1="105" y1="92" x2="105" y2="97" stroke="#2dd4bf" stroke-width="1"/>
+      <text x="29" y="13" fill="#2dd4bf">h(x; k, &lambda;)</text>
+      <text x="102" y="106" fill="#2dd4bf">&lambda;</text>
+      <text x="236" y="106" fill="#2dd4bf">x</text>
+      <path d="M 24.0,94.0 L 34.0,92.2 L 44.0,87.5 L 54.0,79.0 L 64.0,67.0 L 74.0,52.5 L 84.0,37.5 L 94.0,24.5 L 104.0,17.0 L 114.0,16.5 L 124.0,22.5 L 134.0,33.5 L 144.0,47.0 L 154.0,60.5 L 164.0,72.5 L 174.0,81.8 L 184.0,88.0 L 194.0,91.6 L 204.0,93.2 L 214.0,93.8 L 224.0,94.0 L 224.0,94.0 L 24.0,94.0 Z" fill="rgba(45, 212, 191, 0.16)" stroke="none"/>
+      <path d="M 24.0,94.0 L 34.0,92.2 L 44.0,87.5 L 54.0,79.0 L 64.0,67.0 L 74.0,52.5 L 84.0,37.5 L 94.0,24.5 L 104.0,17.0 L 114.0,16.5 L 124.0,22.5 L 134.0,33.5 L 144.0,47.0 L 154.0,60.5 L 164.0,72.5 L 174.0,81.8 L 184.0,88.0 L 194.0,91.6 L 204.0,93.2 L 214.0,93.8 L 224.0,94.0" fill="none" stroke="#2dd4bf" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 3B (Dead-Center Lower): Peaks-Over-Threshold GPD Tail Approximation (Lavender) -->
+    <div class="formula-float formula-mid" style="top: 56%; left: 32%; font-size: 0.89rem; color: #c084fc; transform: rotate(2.5deg);">
+      P(X &minus; u &le; y | X &gt; u) &approx; 1 &minus; (1 + <span class="frac"><span>&xi; y</span><span>&sigma;&#771;</span></span>)<sup>&minus;1/&xi;</sup>
+    </div>
+
+    <!-- 3. Mid-left Gamma / Chi-Square PDF with X & Y Axes (Emerald) -->
+    <svg class="dist-float" style="top: 43%; left: 1%; width: 230px; transform: rotate(6deg);" viewBox="0 0 240 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="100" x2="24" y2="8" stroke="#34d399" stroke-width="1.2"/>
+      <polygon points="24,5 21,11 27,11" fill="#34d399"/>
+      <line x1="16" y1="94" x2="230" y2="94" stroke="#34d399" stroke-width="1.2"/>
+      <polygon points="234,94 228,91 228,97" fill="#34d399"/>
+      <line x1="88" y1="92" x2="88" y2="97" stroke="#34d399" stroke-width="1"/>
+      <line x1="154" y1="92" x2="154" y2="97" stroke="#34d399" stroke-width="1"/>
+      <text x="29" y="13" fill="#34d399">f(x; k, &theta;)</text>
+      <text x="225" y="106" fill="#34d399">x</text>
+      <text x="20" y="106" fill="#34d399">0</text>
+      <path d="M 24.0,94.0 L 26.5,88.9 L 29.0,81.3 L 31.4,72.9 L 33.9,64.6 L 36.4,56.7 L 38.9,49.3 L 41.4,42.7 L 43.8,36.8 L 46.3,31.8 L 48.8,27.5 L 51.3,23.9 L 53.8,21.1 L 56.3,19.0 L 58.7,17.5 L 61.2,16.5 L 63.7,16.0 L 66.2,16.0 L 68.7,16.4 L 71.1,17.1 L 73.6,18.2 L 76.1,19.5 L 78.6,21.0 L 81.1,22.7 L 83.5,24.6 L 86.0,26.6 L 88.5,28.7 L 91.0,30.9 L 93.5,33.1 L 95.9,35.4 L 98.4,37.7 L 100.9,40.0 L 103.4,42.2 L 105.9,44.5 L 108.4,46.7 L 110.8,48.9 L 113.3,51.0 L 115.8,53.1 L 118.3,55.1 L 120.8,57.1 L 123.2,58.9 L 125.7,60.8 L 128.2,62.5 L 130.7,64.2 L 133.2,65.9 L 135.6,67.4 L 138.1,68.9 L 140.6,70.3 L 143.1,71.7 L 145.6,73.0 L 148.1,74.2 L 150.5,75.4 L 153.0,76.5 L 155.5,77.5 L 158.0,78.5 L 160.5,79.5 L 162.9,80.4 L 165.4,81.2 L 167.9,82.0 L 170.4,82.8 L 172.9,83.5 L 175.3,84.2 L 177.8,84.8 L 180.3,85.4 L 182.8,86.0 L 185.3,86.5 L 187.7,87.0 L 190.2,87.5 L 192.7,87.9 L 195.2,88.3 L 197.7,88.7 L 200.2,89.1 L 202.6,89.4 L 205.1,89.7 L 207.6,90.0 L 210.1,90.3 L 212.6,90.6 L 215.0,90.8 L 217.5,91.0 L 220.0,91.2 L 220.0,94.0 L 24.0,94.0 Z" fill="rgba(52, 211, 153, 0.14)" stroke="none"/>
+      <path d="M 24.0,94.0 L 26.5,88.9 L 29.0,81.3 L 31.4,72.9 L 33.9,64.6 L 36.4,56.7 L 38.9,49.3 L 41.4,42.7 L 43.8,36.8 L 46.3,31.8 L 48.8,27.5 L 51.3,23.9 L 53.8,21.1 L 56.3,19.0 L 58.7,17.5 L 61.2,16.5 L 63.7,16.0 L 66.2,16.0 L 68.7,16.4 L 71.1,17.1 L 73.6,18.2 L 76.1,19.5 L 78.6,21.0 L 81.1,22.7 L 83.5,24.6 L 86.0,26.6 L 88.5,28.7 L 91.0,30.9 L 93.5,33.1 L 95.9,35.4 L 98.4,37.7 L 100.9,40.0 L 103.4,42.2 L 105.9,44.5 L 108.4,46.7 L 110.8,48.9 L 113.3,51.0 L 115.8,53.1 L 118.3,55.1 L 120.8,57.1 L 123.2,58.9 L 125.7,60.8 L 128.2,62.5 L 130.7,64.2 L 133.2,65.9 L 135.6,67.4 L 138.1,68.9 L 140.6,70.3 L 143.1,71.7 L 145.6,73.0 L 148.1,74.2 L 150.5,75.4 L 153.0,76.5 L 155.5,77.5 L 158.0,78.5 L 160.5,79.5 L 162.9,80.4 L 165.4,81.2 L 167.9,82.0 L 170.4,82.8 L 172.9,83.5 L 175.3,84.2 L 177.8,84.8 L 180.3,85.4 L 182.8,86.0 L 185.3,86.5 L 187.7,87.0 L 190.2,87.5 L 192.7,87.9 L 195.2,88.3 L 197.7,88.7 L 200.2,89.1 L 202.6,89.4 L 205.1,89.7 L 207.6,90.0 L 210.1,90.3 L 212.6,90.6 L 215.0,90.8 L 217.5,91.0 L 220.0,91.2" stroke="#34d399" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 3: GARCH(1,1) & Expectation (Mid-left-center, Emerald) -->
+    <div class="formula-float" style="top: 60%; left: 3%; font-size: 0.9rem; color: #34d399; transform: rotate(-4deg);">
+      &sigma;<sub>t</sub>&sup2; = &omega; + &alpha; &epsilon;<sub>t&minus;1</sub>&sup2; + &beta; &sigma;<sub>t&minus;1</sub>&sup2; &nbsp;&middot;&nbsp; E[X] = &int; x f(x) dx
+    </div>
+
+    <!-- NEW Lower-Middle Distribution: Tail Survival / Exceedance Function 1 - F(x) (Lavender) -->
+    <svg class="dist-float dist-mid" style="top: 66%; left: 46%; width: 235px; transform: rotate(3.5deg);" viewBox="0 0 240 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="98" x2="24" y2="8" stroke="#c084fc" stroke-width="1.2"/>
+      <polygon points="24,5 21,11 27,11" fill="#c084fc"/>
+      <line x1="16" y1="92" x2="230" y2="92" stroke="#c084fc" stroke-width="1.2"/>
+      <polygon points="234,92 228,89 228,95" fill="#c084fc"/>
+      <line x1="20" y1="20" x2="27" y2="20" stroke="#c084fc" stroke-width="1"/>
+      <text x="12" y="23" fill="#c084fc">1</text>
+      <text x="32" y="14" fill="#c084fc">S(x) = 1 &minus; F(x)</text>
+      <text x="224" y="104" fill="#c084fc">x</text>
+      <path d="M 24.0,20.0 L 34.0,20.4 L 44.0,21.5 L 54.0,23.8 L 64.0,27.5 L 74.0,32.8 L 84.0,39.5 L 94.0,47.0 L 104.0,54.8 L 114.0,62.2 L 124.0,69.0 L 134.0,74.8 L 144.0,79.6 L 154.0,83.4 L 164.0,86.2 L 174.0,88.3 L 184.0,89.8 L 194.0,90.8 L 204.0,91.4 L 214.0,91.7 L 222.0,91.9 L 222.0,92.0 L 24.0,92.0 Z" fill="rgba(192, 132, 252, 0.14)" stroke="none"/>
+      <path d="M 24.0,20.0 L 34.0,20.4 L 44.0,21.5 L 54.0,23.8 L 64.0,27.5 L 74.0,32.8 L 84.0,39.5 L 94.0,47.0 L 104.0,54.8 L 114.0,62.2 L 124.0,69.0 L 134.0,74.8 L 144.0,79.6 L 154.0,83.4 L 164.0,86.2 L 174.0,88.3 L 184.0,89.8 L 194.0,90.8 L 204.0,91.4 L 214.0,91.7 L 222.0,91.9" fill="none" stroke="#c084fc" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 4B (Lower-Center): Extreme Return Level / VaR Quantile (Amber-Gold) -->
+    <div class="formula-float formula-mid" style="top: 79%; left: 30%; font-size: 0.89rem; color: #fbbf24; transform: rotate(-2.5deg);">
+      x<sub>p</sub> = &mu; &minus; <span class="frac"><span>&sigma;</span><span>&xi;</span></span> [1 &minus; (&minus;ln(1 &minus; p))<sup>&minus;&xi;</sup>]
+    </div>
+
+    <!-- 4. Mid-right Bimodal Mixture PDF with X & Y Axes (Coral Rose) -->
+    <svg class="dist-float" style="top: 46%; right: 1.5%; width: 250px; transform: rotate(-4deg);" viewBox="0 0 250 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="125" y1="100" x2="125" y2="8" stroke="#fb7185" stroke-width="1.2"/>
+      <polygon points="125,5 122,11 128,11" fill="#fb7185"/>
+      <line x1="14" y1="94" x2="240" y2="94" stroke="#fb7185" stroke-width="1.2"/>
+      <polygon points="244,94 238,91 238,97" fill="#fb7185"/>
+      <line x1="80" y1="92" x2="80" y2="97" stroke="#fb7185" stroke-width="1"/>
+      <line x1="168" y1="92" x2="168" y2="97" stroke="#fb7185" stroke-width="1"/>
+      <text x="130" y="13" fill="#fb7185">p(x)</text>
+      <text x="234" y="106" fill="#fb7185">x</text>
+      <path d="M 20.0,94.0 L 22.4,93.8 L 24.7,93.6 L 27.1,93.4 L 29.4,93.0 L 31.8,92.5 L 34.2,91.8 L 36.5,91.0 L 38.9,90.0 L 41.2,88.7 L 43.6,87.2 L 46.0,85.4 L 48.3,83.2 L 50.7,80.7 L 53.0,77.9 L 55.4,74.7 L 57.8,71.2 L 60.1,67.4 L 62.5,63.5 L 64.8,59.4 L 67.2,55.2 L 69.6,51.1 L 71.9,47.3 L 74.3,43.7 L 76.6,40.5 L 79.0,37.9 L 81.3,35.9 L 83.7,34.6 L 86.1,34.0 L 88.4,34.1 L 90.8,34.9 L 93.1,36.4 L 95.5,38.5 L 97.9,41.0 L 100.2,43.8 L 102.6,46.8 L 104.9,49.8 L 107.3,52.7 L 109.7,55.4 L 112.0,57.6 L 114.4,59.4 L 116.7,60.6 L 119.1,61.2 L 121.5,61.1 L 123.8,60.2 L 126.2,58.7 L 128.5,56.6 L 130.9,53.8 L 133.3,50.6 L 135.6,47.0 L 138.0,43.1 L 140.3,39.0 L 142.7,34.9 L 145.1,30.9 L 147.4,27.2 L 149.8,23.8 L 152.1,21.0 L 154.5,18.7 L 156.9,17.0 L 159.2,16.1 L 161.6,16.0 L 163.9,16.6 L 166.3,18.0 L 168.7,20.2 L 171.0,22.9 L 173.4,26.3 L 175.7,30.2 L 178.1,34.4 L 180.4,38.9 L 182.8,43.6 L 185.2,48.4 L 187.5,53.1 L 189.9,57.8 L 192.2,62.2 L 194.6,66.4 L 197.0,70.2 L 199.3,73.8 L 201.7,77.0 L 204.0,79.8 L 206.4,82.4 L 208.8,84.5 L 211.1,86.4 L 213.5,88.0 L 215.8,89.3 L 218.2,90.4 L 220.6,91.2 L 222.9,92.0 L 225.3,92.5 L 227.6,93.0 L 230.0,93.3 L 230.0,94.0 L 20.0,94.0 Z" fill="rgba(251, 113, 133, 0.15)" stroke="none"/>
+      <path d="M 20.0,94.0 L 22.4,93.8 L 24.7,93.6 L 27.1,93.4 L 29.4,93.0 L 31.8,92.5 L 34.2,91.8 L 36.5,91.0 L 38.9,90.0 L 41.2,88.7 L 43.6,87.2 L 46.0,85.4 L 48.3,83.2 L 50.7,80.7 L 53.0,77.9 L 55.4,74.7 L 57.8,71.2 L 60.1,67.4 L 62.5,63.5 L 64.8,59.4 L 67.2,55.2 L 69.6,51.1 L 71.9,47.3 L 74.3,43.7 L 76.6,40.5 L 79.0,37.9 L 81.3,35.9 L 83.7,34.6 L 86.1,34.0 L 88.4,34.1 L 90.8,34.9 L 93.1,36.4 L 95.5,38.5 L 97.9,41.0 L 100.2,43.8 L 102.6,46.8 L 104.9,49.8 L 107.3,52.7 L 109.7,55.4 L 112.0,57.6 L 114.4,59.4 L 116.7,60.6 L 119.1,61.2 L 121.5,61.1 L 123.8,60.2 L 126.2,58.7 L 128.5,56.6 L 130.9,53.8 L 133.3,50.6 L 135.6,47.0 L 138.0,43.1 L 140.3,39.0 L 142.7,34.9 L 145.1,30.9 L 147.4,27.2 L 149.8,23.8 L 152.1,21.0 L 154.5,18.7 L 156.9,17.0 L 159.2,16.1 L 161.6,16.0 L 163.9,16.6 L 166.3,18.0 L 168.7,20.2 L 171.0,22.9 L 173.4,26.3 L 175.7,30.2 L 178.1,34.4 L 180.4,38.9 L 182.8,43.6 L 185.2,48.4 L 187.5,53.1 L 189.9,57.8 L 192.2,62.2 L 194.6,66.4 L 197.0,70.2 L 199.3,73.8 L 201.7,77.0 L 204.0,79.8 L 206.4,82.4 L 208.8,84.5 L 211.1,86.4 L 213.5,88.0 L 215.8,89.3 L 218.2,90.4 L 220.6,91.2 L 222.9,92.0 L 225.3,92.5 L 227.6,93.0 L 230.0,93.3" stroke="#fb7185" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 4: Kalman Filter Update & Gain (Lower-mid-right, Coral Rose) -->
+    <div class="formula-float" style="top: 64%; right: 2.5%; font-size: 0.92rem; color: #fb7185; transform: rotate(3deg);">
+      a<sub>t|t</sub> = a<sub>t|t&minus;1</sub> + K<sub>t</sub>(y<sub>t</sub> &minus; Z a<sub>t|t&minus;1</sub>) &nbsp;&middot;&nbsp; K<sub>t</sub> = P<sub>t|t&minus;1</sub> Z&prime; F<sub>t</sub><sup>&minus;1</sup>
+    </div>
+
+    <!-- 5. Bottom-left Beta(a, b) PDF with X & Y Axes (Violet) -->
+    <svg class="dist-float" style="bottom: 6%; left: 2%; width: 220px; transform: rotate(-3deg);" viewBox="0 0 225 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="98" x2="24" y2="8" stroke="#a78bfa" stroke-width="1.2"/>
+      <polygon points="24,5 21,11 27,11" fill="#a78bfa"/>
+      <line x1="16" y1="92" x2="215" y2="92" stroke="#a78bfa" stroke-width="1.2"/>
+      <polygon points="219,92 213,89 213,95" fill="#a78bfa"/>
+      <line x1="204" y1="90" x2="204" y2="95" stroke="#a78bfa" stroke-width="1"/>
+      <text x="29" y="13" fill="#a78bfa">f(x; &alpha;, &beta;)</text>
+      <text x="20" y="104" fill="#a78bfa">0</text>
+      <text x="201" y="104" fill="#a78bfa">1</text>
+      <path d="M 24.0,92.0 L 26.3,86.5 L 28.6,79.8 L 30.8,73.1 L 33.1,66.5 L 35.4,60.2 L 37.7,54.2 L 39.9,48.7 L 42.2,43.6 L 44.5,39.0 L 46.8,34.8 L 49.1,31.0 L 51.3,27.7 L 53.6,24.9 L 55.9,22.5 L 58.2,20.5 L 60.5,18.8 L 62.7,17.6 L 65.0,16.7 L 67.3,16.2 L 69.6,16.0 L 71.8,16.1 L 74.1,16.5 L 76.4,17.1 L 78.7,18.0 L 81.0,19.1 L 83.2,20.5 L 85.5,22.0 L 87.8,23.7 L 90.1,25.5 L 92.4,27.5 L 94.6,29.5 L 96.9,31.7 L 99.2,34.0 L 101.5,36.3 L 103.7,38.7 L 106.0,41.1 L 108.3,43.6 L 110.6,46.1 L 112.9,48.5 L 115.1,51.0 L 117.4,53.4 L 119.7,55.8 L 122.0,58.2 L 124.3,60.5 L 126.5,62.8 L 128.8,65.0 L 131.1,67.1 L 133.4,69.2 L 135.6,71.1 L 137.9,73.0 L 140.2,74.8 L 142.5,76.5 L 144.8,78.1 L 147.0,79.6 L 149.3,81.0 L 151.6,82.3 L 153.9,83.5 L 156.2,84.7 L 158.4,85.7 L 160.7,86.6 L 163.0,87.5 L 165.3,88.2 L 167.5,88.9 L 169.8,89.5 L 172.1,90.0 L 174.4,90.4 L 176.7,90.8 L 178.9,91.1 L 181.2,91.3 L 183.5,91.5 L 185.8,91.7 L 188.1,91.8 L 190.3,91.9 L 192.6,91.9 L 194.9,92.0 L 197.2,92.0 L 199.4,92.0 L 201.7,92.0 L 204.0,92.0 L 204.0,92.0 L 24.0,92.0 Z" fill="rgba(167, 139, 250, 0.15)" stroke="none"/>
+      <path d="M 24.0,92.0 L 26.3,86.5 L 28.6,79.8 L 30.8,73.1 L 33.1,66.5 L 35.4,60.2 L 37.7,54.2 L 39.9,48.7 L 42.2,43.6 L 44.5,39.0 L 46.8,34.8 L 49.1,31.0 L 51.3,27.7 L 53.6,24.9 L 55.9,22.5 L 58.2,20.5 L 60.5,18.8 L 62.7,17.6 L 65.0,16.7 L 67.3,16.2 L 69.6,16.0 L 71.8,16.1 L 74.1,16.5 L 76.4,17.1 L 78.7,18.0 L 81.0,19.1 L 83.2,20.5 L 85.5,22.0 L 87.8,23.7 L 90.1,25.5 L 92.4,27.5 L 94.6,29.5 L 96.9,31.7 L 99.2,34.0 L 101.5,36.3 L 103.7,38.7 L 106.0,41.1 L 108.3,43.6 L 110.6,46.1 L 112.9,48.5 L 115.1,51.0 L 117.4,53.4 L 119.7,55.8 L 122.0,58.2 L 124.3,60.5 L 126.5,62.8 L 128.8,65.0 L 131.1,67.1 L 133.4,69.2 L 135.6,71.1 L 137.9,73.0 L 140.2,74.8 L 142.5,76.5 L 144.8,78.1 L 147.0,79.6 L 149.3,81.0 L 151.6,82.3 L 153.9,83.5 L 156.2,84.7 L 158.4,85.7 L 160.7,86.6 L 163.0,87.5 L 165.3,88.2 L 167.5,88.9 L 169.8,89.5 L 172.1,90.0 L 174.4,90.4 L 176.7,90.8 L 178.9,91.1 L 181.2,91.3 L 183.5,91.5 L 185.8,91.7 L 188.1,91.8 L 190.3,91.9 L 192.6,91.9 L 194.9,92.0 L 197.2,92.0 L 199.4,92.0 L 201.7,92.0 L 204.0,92.0" stroke="#a78bfa" stroke-width="1.8"/>
+    </svg>
+
+    <!-- Formula 5: Chebyshev & Score-Driven Update (Bottom-center, Violet) -->
+    <div class="formula-float" style="bottom: 4.5%; left: 26%; font-size: 0.88rem; color: #a78bfa; transform: rotate(-2deg);">
+      P(|X&#772;<sub>n</sub> &minus; &mu;| &ge; &epsilon;) &le; <span class="frac"><span>&sigma;&sup2;</span><span>n&epsilon;&sup2;</span></span> &nbsp;&middot;&nbsp; f<sub>t+1</sub> = &omega; + &alpha; s<sub>t</sub> + &beta; f<sub>t</sub>
+    </div>
+
+    <!-- 6. Bottom-right Student-t PDF with X & Y Axes (Tangerine) -->
+    <svg class="dist-float" style="bottom: 6%; right: 2.5%; width: 235px; transform: rotate(5deg);" viewBox="0 0 240 112" xmlns="http://www.w3.org/2000/svg">
+      <line x1="120" y1="98" x2="120" y2="8" stroke="#fb923c" stroke-width="1.2"/>
+      <polygon points="120,5 117,11 123,11" fill="#fb923c"/>
+      <line x1="14" y1="92" x2="230" y2="92" stroke="#fb923c" stroke-width="1.2"/>
+      <polygon points="234,92 228,89 228,95" fill="#fb923c"/>
+      <line x1="65" y1="90" x2="65" y2="95" stroke="#fb923c" stroke-width="1"/>
+      <line x1="175" y1="90" x2="175" y2="95" stroke="#fb923c" stroke-width="1"/>
+      <text x="125" y="13" fill="#fb923c">t<tspan dy="3" font-size="8">&nu;</tspan><tspan dy="-3">(x)</tspan></text>
+      <text x="225" y="104" fill="#fb923c">x</text>
+      <text x="117" y="104" fill="#fb923c">0</text>
+      <!-- Shaded area under Student-t density curve -->
+      <path d="M 20.0,91.0 L 22.5,90.8 L 25.1,90.6 L 27.6,90.4 L 30.1,90.2 L 32.7,89.9 L 35.2,89.6 L 37.7,89.3 L 40.3,88.9 L 42.8,88.5 L 45.3,88.1 L 47.8,87.6 L 50.4,87.0 L 52.9,86.4 L 55.4,85.7 L 58.0,84.9 L 60.5,84.0 L 63.0,83.0 L 65.6,81.9 L 68.1,80.6 L 70.6,79.2 L 73.2,77.6 L 75.7,75.8 L 78.2,73.8 L 80.8,71.5 L 83.3,68.9 L 85.8,66.0 L 88.4,62.8 L 90.9,59.2 L 93.4,55.2 L 95.9,50.9 L 98.5,46.4 L 101.0,41.6 L 103.5,36.7 L 106.1,31.8 L 108.6,27.2 L 111.1,23.1 L 113.7,19.7 L 116.2,17.2 L 118.7,16.0 L 121.3,16.0 L 123.8,17.2 L 126.3,19.7 L 128.9,23.1 L 131.4,27.2 L 133.9,31.8 L 136.5,36.7 L 139.0,41.6 L 141.5,46.4 L 144.1,50.9 L 146.6,55.2 L 149.1,59.2 L 151.6,62.8 L 154.2,66.0 L 156.7,68.9 L 159.2,71.5 L 161.8,73.8 L 164.3,75.8 L 166.8,77.6 L 169.4,79.2 L 171.9,80.6 L 174.4,81.9 L 177.0,83.0 L 179.5,84.0 L 182.0,84.9 L 184.6,85.7 L 187.1,86.4 L 189.6,87.0 L 192.2,87.6 L 194.7,88.1 L 197.2,88.5 L 199.7,88.9 L 202.3,89.3 L 204.8,89.6 L 207.3,89.9 L 209.9,90.2 L 212.4,90.4 L 214.9,90.6 L 217.5,90.8 L 220.0,91.0 L 220.0,92.0 L 20.0,92.0 Z" fill="rgba(251, 146, 60, 0.18)" stroke="none"/>
+      <!-- Student-t PDF curve outline -->
+      <path d="M 20.0,91.0 L 22.5,90.8 L 25.1,90.6 L 27.6,90.4 L 30.1,90.2 L 32.7,89.9 L 35.2,89.6 L 37.7,89.3 L 40.3,88.9 L 42.8,88.5 L 45.3,88.1 L 47.8,87.6 L 50.4,87.0 L 52.9,86.4 L 55.4,85.7 L 58.0,84.9 L 60.5,84.0 L 63.0,83.0 L 65.6,81.9 L 68.1,80.6 L 70.6,79.2 L 73.2,77.6 L 75.7,75.8 L 78.2,73.8 L 80.8,71.5 L 83.3,68.9 L 85.8,66.0 L 88.4,62.8 L 90.9,59.2 L 93.4,55.2 L 95.9,50.9 L 98.5,46.4 L 101.0,41.6 L 103.5,36.7 L 106.1,31.8 L 108.6,27.2 L 111.1,23.1 L 113.7,19.7 L 116.2,17.2 L 118.7,16.0 L 121.3,16.0 L 123.8,17.2 L 126.3,19.7 L 128.9,23.1 L 131.4,27.2 L 133.9,31.8 L 136.5,36.7 L 139.0,41.6 L 141.5,46.4 L 144.1,50.9 L 146.6,55.2 L 149.1,59.2 L 151.6,62.8 L 154.2,66.0 L 156.7,68.9 L 159.2,71.5 L 161.8,73.8 L 164.3,75.8 L 166.8,77.6 L 169.4,79.2 L 171.9,80.6 L 174.4,81.9 L 177.0,83.0 L 179.5,84.0 L 182.0,84.9 L 184.6,85.7 L 187.1,86.4 L 189.6,87.0 L 192.2,87.6 L 194.7,88.1 L 197.2,88.5 L 199.7,88.9 L 202.3,89.3 L 204.8,89.6 L 207.3,89.9 L 209.9,90.2 L 212.4,90.4 L 214.9,90.6 L 217.5,90.8 L 220.0,91.0" fill="none" stroke="#fb923c" stroke-width="1.9" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- Sticky Top Navigation Bar -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-brand" onclick="switchTab('home')">Marco Bidoia</span>
+      <nav class="site-nav" aria-label="Main Navigation">
+        <button class="nav-tab active" data-tab="home" onclick="switchTab('home')">Home</button>
+        <button class="nav-tab" data-tab="research" onclick="switchTab('research')">Research</button>
+        <button class="nav-tab" data-tab="teaching" onclick="switchTab('teaching')">Teaching &amp; Service</button>
+        <button class="nav-tab" data-tab="cv" onclick="switchTab('cv')">CV</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Two-Column Layout -->
+  <div class="page-container">
+    <!-- Persistent 250px Left Profile Sidebar -->
+    <aside class="sidebar">
+      <div class="avatar-wrap">
+        <img src="Marco%20Bidoia%203-2%20front_2.jpg" onerror="this.src='https://placehold.co/400x400/141922/e6edf3?text=MB'" alt="Marco Bidoia">
+      </div>
+      <h2 class="author-name">Marco Bidoia</h2>
+      <p class="author-role">
+        Ph.D. Candidate in Economics<br>
+        Ca' Foscari University of Venice
+      </p>
+
+      <ul class="author-meta">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Venice, Italy</span>
+        </li>
+      </ul>
+
+      <div class="sidebar-links">
+        <a class="btn-link" href="https://scholar.google.com/citations?user=ndCsE2gAAAAJ&amp;hl=it" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          Google Scholar
+        </a>
+        <a class="btn-link" href="mailto:marco.bidoia@unive.it">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          marco.bidoia@unive.it
+        </a>
+        <a class="btn-link" href="https://www.unive.it/data/people/27615596/curriculum" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Ca' Foscari Profile
+        </a>
+        <a class="btn-link" href="https://www.linkedin.com/in/marco-bidoia-662b64194/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Right Content Area -->
+    <main class="main-content">
+
+      <!-- ==================== TAB 1: HOME ==================== -->
+      <div id="tab-home" class="tab-panel active">
+        <section class="lead-bio">
+          <h1>Welcome!</h1>
+          <p>
+            I am Marco, a Ph.D. Candidate in Economics at the <strong>Department of Economics, Ca' Foscari University of Venice</strong>, supervised by Prof. Monica Billio and Prof. Dario Palumbo, and a part-time researcher at Fondazione Eni Enrico Mattei (FEEM).
+          </p>
+          <p>
+            Following an earlier visiting period at the University of Cambridge, I returned as a Visiting Ph.D. Student working with Prof. Andrew Harvey and Prof. Paul Kattuman.
+          </p>
+          <p>
+            My research lies at the intersection of time-series econometrics, extreme value theory, and environmental statistics, with a particular focus on dynamic score-driven models for climate extremes. I am also currently working on applications to Financial Extremes.
+          </p>
+
+          <div class="tag-list" aria-label="Research Interests">
+            <span class="tag">Time-Series Econometrics</span>
+            <span class="tag">Extreme Value Theory</span>
+            <span class="tag">Score-Driven Models</span>
+            <span class="tag">Environmental Statistics</span>
+            <span class="tag">Financial Extremes</span>
+          </div>
+        </section>
+
+        <section id="featured-paper">
+          <h2>Job Market Paper</h2>
+          <div class="jmp-card">
+            <span class="jmp-badge">Job Market Paper</span>
+            <h3 class="paper-title">
+              <a href="https://www.repository.cam.ac.uk/items/9ab97955-27ea-4661-aa43-2bd2d7a0f1a0" target="_blank" rel="noopener">
+                Dynamic Models for Climate Extremes
+              </a>
+            </h3>
+            <p class="paper-authors">with Andrew Harvey and Dario Palumbo</p>
+            <p class="paper-venue">
+              Cambridge Working Papers in Economics (No. 2620), Faculty of Economics, University of Cambridge, 2026.
+            </p>
+            <div class="paper-actions">
+              <a class="pill-btn" href="https://www.repository.cam.ac.uk/items/9ab97955-27ea-4661-aa43-2bd2d7a0f1a0" target="_blank" rel="noopener">Working Paper (Cambridge Repository)</a>
+            </div>
+            <details class="abstract-box">
+              <summary>Abstract</summary>
+              <p>
+                We develop dynamic score-driven econometric models tailored to time-varying climate extremes, capturing evolving tail behavior, conditional scale, and extreme event persistence in environmental time series.
+              </p>
+            </details>
+          </div>
+        </section>
+
+        <section id="education">
+          <h2>Education</h2>
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Ph.D. in Economics — Ca' Foscari University of Venice</span>
+              <span class="entry-date">Sep. 2023 – Ongoing</span>
+            </div>
+            <div class="entry-sub">Supervisors: Prof. Monica Billio, Prof. Dario Palumbo</div>
+          </div>
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">M.Sc. in Data Analytics for Business and Society — Ca' Foscari University of Venice</span>
+              <span class="entry-date">Sep. 2020 – Oct. 2023</span>
+            </div>
+            <div class="entry-sub">110/110 <em>cum laude</em> (with highest distinction)</div>
+          </div>
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">B.Sc. in Economics — Ca' Foscari University of Venice</span>
+              <span class="entry-date">Sep. 2017 – Apr. 2020</span>
+            </div>
+            <div class="entry-sub">110/110 <em>cum laude</em> (with highest distinction)</div>
+          </div>
+        </section>
+
+        <section id="news">
+          <h2>News</h2>
+          <ul class="news-list">
+            <li>
+              <span class="news-date">Oct.–Dec. 2026</span>
+              <span>Currently Visiting Ph.D. Student at the <strong>Judge Business School, University of Cambridge</strong>, working with Prof. Andrew Harvey and Prof. Paul Kattuman (funded by the Keynes Fund).</span>
+            </li>
+            <li>
+              <span class="news-date">Dec. 2026</span>
+              <span>Accepted to present at the <strong>2nd Junior Milan Time Series Seminars (MiTSS) Workshop</strong>, University of Milan-Bicocca (Poster session).</span>
+            </li>
+            <li>
+              <span class="news-date">Sep. 2026</span>
+              <span>Presented at the <strong>CREDIT 2026 Conference</strong>, Venice (Poster session).</span>
+            </li>
+            <li>
+              <span class="news-date">Aug. 2026</span>
+              <span>Presented at the <strong>10th Econometric Models of Climate Change Conference (EMCC-X)</strong>, University of Aalborg.</span>
+            </li>
+          </ul>
+
+          <details class="older-news">
+            <summary>Older news &amp; media coverage</summary>
+            <ul class="news-list">
+              <li>
+                <span class="news-date">Jan.–Mar. 2026</span>
+                <span>Visiting Ph.D. Student at the <strong>Faculty of Economics, University of Cambridge</strong> (supervised by Prof. Andrew Harvey).</span>
+              </li>
+              <li>
+                <span class="news-date">May 2024</span>
+                <span>
+                  Our published article on the economic performance and future perspectives of the Venice MoSE flood protection system (<em>Regional Environmental Change</em>, 2024) was featured in national news outlets, including
+                  <a href="https://barbaraganz.blog.ilsole24ore.com/2024/05/09/impatto-economico-e-prospettive-del-mose-che-puo-non-bastare-a-venezia-causa-cambiamento-climatico/" target="_blank" rel="noopener">Il Sole 24 Ore</a>.
+                </span>
+              </li>
+            </ul>
+          </details>
+        </section>
+      </div>
+
+      <!-- ==================== TAB 2: RESEARCH ==================== -->
+      <div id="tab-research" class="tab-panel">
+        <h1>Research</h1>
+
+        <section>
+          <h2>Job Market Paper</h2>
+
+          <div class="jmp-card">
+            <span class="jmp-badge">Job Market Paper</span>
+            <h3 class="paper-title">
+              <a href="https://www.repository.cam.ac.uk/items/9ab97955-27ea-4661-aa43-2bd2d7a0f1a0" target="_blank" rel="noopener">
+                Dynamic Models for Climate Extremes
+              </a>
+            </h3>
+            <p class="paper-authors">with Andrew Harvey and Dario Palumbo</p>
+            <p class="paper-venue">
+              Cambridge Working Papers in Economics (No. 2620), Faculty of Economics, University of Cambridge, 2026.
+            </p>
+            <div class="paper-actions">
+              <a class="pill-btn" href="https://www.repository.cam.ac.uk/items/9ab97955-27ea-4661-aa43-2bd2d7a0f1a0" target="_blank" rel="noopener">Working Paper (Cambridge Repository)</a>
+            </div>
+            <details class="abstract-box">
+              <summary>Abstract</summary>
+              <p>
+                We develop dynamic score-driven econometric models tailored to time-varying climate extremes, capturing evolving tail behavior, conditional scale, and extreme event persistence in environmental time series.
+              </p>
+            </details>
+          </div>
+        </section>
+
+        <section>
+          <h2>Working Papers</h2>
+
+          <div class="paper-item">
+            <h3 class="paper-title">
+              <a href="https://dx.doi.org/10.2139/ssrn.6176638" target="_blank" rel="noopener">
+                Global spatiotemporal multi-criteria analysis of coastal risk: current and future hot spots and clusters
+              </a>
+            </h3>
+            <p class="paper-authors">with Carlo Giupponi</p>
+            <p class="paper-venue">FEEM Working Papers, 2026.</p>
+            <div class="paper-actions">
+              <a class="pill-btn" href="https://dx.doi.org/10.2139/ssrn.6176638" target="_blank" rel="noopener">SSRN Working Paper</a>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Work in Progress</h2>
+          <div class="paper-item">
+            <h3 class="paper-title">Dynamic Models for Extremes of Asset Returns</h3>
+            <p class="paper-authors">with Andrew Harvey and Dario Palumbo</p>
+          </div>
+          <div class="paper-item">
+            <h3 class="paper-title">Modelling PM<sub>2.5</sub> Pollution in Delhi with Score-Driven Models with the EGB2 Distribution</h3>
+            <p class="paper-authors">with Paul Kattuman, Andrew Harvey and Dario Palumbo</p>
+          </div>
+          <div class="paper-item">
+            <h3 class="paper-title">A Score-Driven Spatial Model for Extreme Floods</h3>
+            <p class="paper-authors">with Monica Billio, Roberto Casarin, and Dario Palumbo</p>
+          </div>
+        </section>
+
+        <section>
+          <h2>Publications</h2>
+          <div class="paper-item">
+            <h3 class="paper-title">
+              <a href="https://doi.org/10.1007/s10113-024-02193-9" target="_blank" rel="noopener">
+                Boon and burden: economic performance and future perspectives of the Venice flood protection system
+              </a>
+            </h3>
+            <p class="paper-authors">with C. Giupponi, M. Breil, L. Di Corato, A. K. Gain, V. Leoni, B. Minooei Fard, R. Pesenti, and G. Umgiesser</p>
+            <p class="paper-venue"><em>Regional Environmental Change</em>, 24(2), 2024.</p>
+            <div class="paper-actions">
+              <a class="pill-btn" href="https://doi.org/10.1007/s10113-024-02193-9" target="_blank" rel="noopener">Published Article (DOI)</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ==================== TAB 3: TEACHING & SERVICE ==================== -->
+      <div id="tab-teaching" class="tab-panel">
+        <h1>Teaching &amp; Service</h1>
+
+        <section>
+          <h2>Teaching</h2>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Educational Assistant — Ca' Foscari International College</span>
+              <span class="entry-date">Venice, Sep. 2026 – Ongoing</span>
+            </div>
+            <div class="entry-sub">Minor in Data, Information and Society</div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Introduction to Econometrics — Teaching Assistant [ET0038]</span>
+              <span class="entry-date">A.Y. 2024–2025, 2025–2026 &amp; 2026–2027</span>
+            </div>
+            <div class="entry-sub">B.Sc. in Economics (Ca' Foscari University of Venice, ITA)</div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Econometrics — Teaching Assistant [EM0004]</span>
+              <span class="entry-date">A.Y. 2025–2026</span>
+            </div>
+            <div class="entry-sub">M.Sc. in Economics and Finance (Ca' Foscari University of Venice, ITA)</div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Crash Course on Teaching — Instructor</span>
+              <span class="entry-date">Sep. 2025 &amp; Sep. 2026</span>
+            </div>
+            <div class="entry-sub">Short course (3 hrs) for early-career Ph.D. students (Ca' Foscari University of Venice, ENG)</div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Computational Tools for Economics — Teaching Assistant [ET4020]</span>
+              <span class="entry-date">A.Y. 2020–2021</span>
+            </div>
+            <div class="entry-sub">B.Sc. in Economics (Ca' Foscari University of Venice, ITA)</div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Professional &amp; Academic Service</h2>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Guest Researcher — Basque Centre for Climate Change (BC3)</span>
+              <span class="entry-date">Bilbao, Spain</span>
+            </div>
+            <div class="entry-sub">Visiting Researcher</div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Journal Refereeing</span>
+            </div>
+            <div class="entry-sub"><em>Scientific Reports</em> (Nature Portfolio), <em>Journal of Coastal Conservation</em></div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Scientific Committee Member — SASCA Ph.D. Conference</span>
+              <span class="entry-date">2025 &amp; 2026</span>
+            </div>
+          </div>
+
+          <div class="entry-block">
+            <div class="entry-header">
+              <span class="entry-title">Editorial Staff Member — Equilibri Magazine</span>
+              <span class="entry-date">Venice, Dec. 2022 – Sep. 2023</span>
+            </div>
+            <div class="entry-sub">
+              Editorial coordination and author of a divulgative article (<em>"Dai pescherecci alle pandemie"</em>):<br>
+              <a class="small-link" href="https://equilibrimagazine.it/scienza/2022/12/13/dai-pescherecci-alle-pandemie/" target="_blank" rel="noopener">https://equilibrimagazine.it/scienza/2022/12/13/dai-pescherecci-alle-pandemie/</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ==================== TAB 4: CV (GOOGLE DRIVE EMBED) ==================== -->
+      <div id="tab-cv" class="tab-panel">
+        <h1>Curriculum Vitae</h1>
+        <div class="cv-toolbar">
+          <span>Viewing full CV directly from Google Drive.</span>
+          <a class="pill-btn" href="https://drive.google.com/file/d/1kXXpXruAk9loFN_96dYrBE8_Cac8zGdb/view?usp=drive_link" target="_blank" rel="noopener">
+            Open / Download PDF in Google Drive
+          </a>
+        </div>
+        <div class="cv-frame-wrap">
+          <iframe
+            src="https://drive.google.com/file/d/1kXXpXruAk9loFN_96dYrBE8_Cac8zGdb/preview"
+            title="Marco Bidoia Curriculum Vitae"
+            allow="autoplay">
+          </iframe>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer above background layer -->
+  <footer class="site-footer">
+    <span>&copy; 2026 Marco Bidoia &middot; Department of Economics, Ca' Foscari University of Venice</span>
+    <span>Last updated: November 2026</span>
+  </footer>
+
+  <script>
+    function switchTab(tabId) {
+      try {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+        const targetPanel = document.getElementById('tab-' + tabId);
+        const targetBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+        if (targetPanel) targetPanel.classList.add('active');
+        if (targetBtn) targetBtn.classList.add('active');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error('Tab switching error:', err);
+      }
+    }
+  </script>
+</body>
+</html>
