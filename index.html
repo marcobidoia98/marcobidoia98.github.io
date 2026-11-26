@@ -118,8 +118,8 @@
     }
 
     .site-header { position:fixed; top:0; left:0; right:0; width:100%; z-index:100; background:rgba(13,17,23,.92); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid #262e3d; }
-    .header-inner { max-width:var(--max-width); margin:0 auto; padding:.9rem 1.5rem; display:grid; grid-template-columns:265px 1fr; gap:2.35rem; align-items:center; }
-    .site-nav { grid-column:2; display:flex; align-items:center; justify-content:center; gap:2rem; flex-wrap:wrap; width:100%; }
+    .header-inner { max-width:var(--max-width); margin:0 auto; padding:.9rem 1.5rem; display:flex; align-items:center; justify-content:center; }
+    .site-nav { display:flex; align-items:center; justify-content:center; gap:2.2rem; flex-wrap:wrap; width:100%; }
     .nav-tab { background:none; border:none; border-bottom:2px solid transparent; padding:.22rem 0; font-family:var(--font-sans); font-size:1.15rem; font-weight:500; color:var(--text-muted); cursor:pointer; transition:all .15s ease; }
     .nav-tab:hover,.nav-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
     .site-search-wrap { position:relative; display:inline-flex; align-items:center; }
@@ -237,8 +237,9 @@
       }
       .main-content { grid-column:auto; background:rgba(13,17,23,.78); padding:1rem; border-radius:8px; }
       .page-container { grid-template-columns:1fr; gap:2rem; margin-top:1.5rem; }
-      .sidebar { position:static; width:auto; max-height:none; overflow:visible; left:auto; top:auto; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
-      .avatar-wrap { width:145px; height:145px; }
+      .sidebar { position:static; width:auto; max-height:none; overflow:visible; left:auto; top:auto; padding-bottom:1.5rem; border-bottom:1px solid var(--border); text-align:center; }
+      .avatar-wrap { width:155px; height:155px; margin:0 auto 1.1rem; }
+      .author-meta li { justify-content:center; }
       .sidebar-links { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:.42rem; }
       .sidebar-links .btn-link { width:100%; justify-content:center; font-size:.8rem; padding:.38rem .55rem; gap:.42rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
       .sidebar-links .btn-link:first-child { grid-column:1 / -1; }
