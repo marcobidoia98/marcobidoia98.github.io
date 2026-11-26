@@ -125,6 +125,9 @@
     .nav-tab { background:none; border:none; border-bottom:2px solid transparent; padding:.2rem 0; font-family:var(--font-sans); font-size:1.05rem; font-weight:500; color:var(--text-muted); cursor:pointer; transition:all .15s ease; }
     .nav-tab:hover,.nav-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
     .site-search-wrap { position:relative; display:inline-flex; align-items:center; }
+    .mobile-search-toggle { display:none; align-items:center; justify-content:center; width:34px; height:34px; border-radius:999px; border:1px solid var(--border); background:rgba(20,25,34,.95); color:var(--text-muted); cursor:pointer; padding:0; flex-shrink:0; transition:border-color .15s ease, color .15s ease; }
+    .mobile-search-toggle:hover, .mobile-search-toggle.active { border-color:var(--accent); color:var(--accent); }
+    .mobile-search-toggle svg { width:16px; height:16px; }
     .site-search-input { background:rgba(20,25,34,.95); border:1px solid var(--border); border-radius:999px; padding:.32rem .85rem .32rem 2rem; font-family:var(--font-sans); font-size:.88rem; color:var(--text-main); width:175px; outline:none; transition:border-color .15s ease, width .2s ease; }
     .site-search-input::placeholder { color:var(--text-light); }
     .site-search-input:focus { border-color:var(--accent); width:215px; }
@@ -206,15 +209,17 @@
 
     @media (max-width:820px) {
       html { font-size:16px; }
-      body { padding-top:7.6rem; }
-      .header-inner { flex-direction:column; align-items:flex-start; gap:.55rem; padding:.75rem 1rem; }
-      .site-brand { font-size:1.32rem; width:auto; text-align:left; }
-      .site-nav { width:100%; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
-      .nav-tab { font-size:.92rem; white-space:nowrap; }
-      .site-search-wrap { width:100%; }
-      .site-search-input { width:100%; font-size:.85rem; padding:.32rem .75rem .32rem 1.9rem; }
-      .site-search-input:focus { width:100%; }
-      .search-results-dropdown { width:100%; left:0; right:0; }
+      body { padding-top:5.35rem; }
+      .header-inner { flex-direction:column; align-items:flex-start; gap:.45rem; padding:.65rem .85rem; position:relative; }
+      .site-brand { font-size:1.35rem; width:auto; text-align:left; }
+      .site-nav { width:100%; justify-content:space-between; align-items:center; flex-wrap:nowrap; gap:.35rem; }
+      .nav-tab { font-size:.96rem; padding:.22rem 0; white-space:nowrap; }
+      .site-search-wrap { position:static; display:inline-flex; align-items:center; }
+      .mobile-search-toggle { display:inline-flex; }
+      .site-search-input, .site-search-icon { display:none; }
+      .site-search-wrap.mobile-open .site-search-input { display:block; position:absolute; top:100%; left:.85rem; right:.85rem; width:auto; margin-top:.4rem; padding:.48rem .95rem .48rem 2.2rem; font-size:.92rem; background:#141922; border-color:var(--accent); box-shadow:0 10px 25px rgba(0,0,0,.65); z-index:205; }
+      .site-search-wrap.mobile-open .site-search-icon { display:block; position:absolute; top:calc(100% + 1.02rem); left:1.65rem; width:15px; height:15px; z-index:206; }
+      .search-results-dropdown { width:auto; left:.85rem; right:.85rem; top:calc(100% + 2.95rem); }
       .dist-float {
         width: 135px !important;
         max-width: 125px !important;
@@ -243,8 +248,12 @@
       .sidebar-links .btn-link svg { width:14px; height:14px; }
     }
     @media (max-width:440px) {
-      body { padding-top:8.9rem; }
-      .site-nav { gap:.4rem .75rem; justify-content:flex-start; }
+      body { padding-top:5.25rem; }
+      .header-inner { padding:.6rem .75rem; }
+      .site-nav { gap:.25rem; justify-content:space-between; flex-wrap:nowrap; }
+      .nav-tab { font-size:.89rem; }
+      .mobile-search-toggle { width:31px; height:31px; }
+      .mobile-search-toggle svg { width:15px; height:15px; }
       .sidebar-links .btn-link { font-size:.76rem; padding:.34rem .45rem; }
       .news-list li { grid-template-columns:1fr; gap:.2rem; }
       .cv-frame-wrap { height:600px; }
@@ -454,6 +463,9 @@
         <button class="nav-tab" data-tab="teaching" onclick="switchTab('teaching')">Teaching &amp; Service</button>
         <button class="nav-tab" data-tab="cv" onclick="switchTab('cv')">CV</button>
         <div class="site-search-wrap" id="site-search-wrap">
+          <button type="button" class="mobile-search-toggle" id="mobile-search-toggle" aria-label="Toggle search" onclick="toggleMobileSearch()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
           <svg class="site-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="search" id="site-search-input" class="site-search-input" placeholder="Search site..." aria-label="Search site" oninput="handleSiteSearch(this.value)" onfocus="handleSiteSearch(this.value)">
           <div id="search-results-dropdown" class="search-results-dropdown" role="listbox"></div>
@@ -581,17 +593,39 @@
       dropdown.classList.add('open');
     }
 
+    function toggleMobileSearch() {
+      const wrap = document.getElementById('site-search-wrap');
+      const btn = document.getElementById('mobile-search-toggle');
+      const input = document.getElementById('site-search-input');
+      const dropdown = document.getElementById('search-results-dropdown');
+      if (!wrap) return;
+      const isOpen = wrap.classList.toggle('mobile-open');
+      if (btn) btn.classList.toggle('active', isOpen);
+      if (isOpen && input) {
+        input.focus();
+      } else if (dropdown) {
+        dropdown.classList.remove('open');
+      }
+    }
+
     function selectSearchResult(tabId) {
       switchTab(tabId);
       const dropdown = document.getElementById('search-results-dropdown');
-      dropdown.classList.remove('open');
+      const wrap = document.getElementById('site-search-wrap');
+      const btn = document.getElementById('mobile-search-toggle');
+      if (dropdown) dropdown.classList.remove('open');
+      if (wrap) wrap.classList.remove('mobile-open');
+      if (btn) btn.classList.remove('active');
     }
 
     document.addEventListener('click', function(e) {
       const wrap = document.getElementById('site-search-wrap');
       const dropdown = document.getElementById('search-results-dropdown');
+      const btn = document.getElementById('mobile-search-toggle');
       if (wrap && dropdown && !wrap.contains(e.target)) {
         dropdown.classList.remove('open');
+        wrap.classList.remove('mobile-open');
+        if (btn) btn.classList.remove('active');
       }
     });
 
