@@ -144,7 +144,7 @@
       .sidebar::-webkit-scrollbar { display:none; }
     }
     .main-content { grid-column:2; position:relative; z-index:3; }
-    .avatar-wrap { width:185px; height:185px; border-radius:50%; overflow:hidden; border:3px solid var(--border); margin-bottom:1.05rem; background:var(--bg-surface); box-shadow:0 8px 24px rgba(0,0,0,.45); }
+    .avatar-wrap { width:190px; height:190px; border-radius:50%; overflow:hidden; border:3px solid var(--border); margin-bottom:1.1rem; background:var(--bg-surface); box-shadow:0 8px 24px rgba(0,0,0,.45); }
     .avatar-wrap img { width:100%; height:100%; object-fit:cover; object-position:center 15%; display:block; }
     .author-name { font-family:var(--font-serif); font-size:1.6rem; font-weight:700; margin:0 0 .3rem; color:var(--text-main); line-height:1.25; }
     .author-role { font-size:.98rem; color:var(--text-muted); margin:0 0 .85rem; line-height:1.42; }
@@ -237,13 +237,15 @@
       .page-container { grid-template-columns:1fr; gap:2rem; margin-top:1.5rem; }
       .sidebar { position:static; width:auto; max-height:none; overflow:visible; left:auto; top:auto; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
       .avatar-wrap { width:145px; height:145px; }
-      .sidebar-links { flex-direction:row; flex-wrap:wrap; gap:.5rem; }
-      .sidebar-links .btn-link { font-size:.88rem; padding:.46rem .8rem; }
+      .sidebar-links { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:.42rem; }
+      .sidebar-links .btn-link { width:100%; justify-content:center; font-size:.8rem; padding:.38rem .55rem; gap:.42rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .sidebar-links .btn-link:first-child { grid-column:1 / -1; }
+      .sidebar-links .btn-link svg { width:14px; height:14px; }
     }
     @media (max-width:440px) {
       body { padding-top:8.9rem; }
       .site-nav { gap:.4rem .75rem; justify-content:flex-start; }
-      .sidebar-links .btn-link { width:100%; }
+      .sidebar-links .btn-link { font-size:.76rem; padding:.34rem .45rem; }
       .news-list li { grid-template-columns:1fr; gap:.2rem; }
       .cv-frame-wrap { height:600px; }
     }
