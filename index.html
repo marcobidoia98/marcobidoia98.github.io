@@ -140,17 +140,18 @@
 
     .page-container { position:relative; z-index:2; max-width:var(--max-width); margin:2.5rem auto 4rem; padding:0 1.5rem; display:grid; grid-template-columns:265px 1fr; gap:2.35rem; align-items:start; }
     @media (min-width:821px) {
-      .sidebar { position:fixed; top:5.6rem; left:max(1.5rem, calc((100vw - var(--max-width)) / 2 + 1.5rem)); width:265px; z-index:3; }
+      .sidebar { position:fixed; top:5.1rem; left:max(1.5rem, calc((100vw - var(--max-width)) / 2 + 1.5rem)); width:265px; max-height:calc(100vh - 6.1rem); overflow-y:auto; scrollbar-width:none; z-index:3; }
+      .sidebar::-webkit-scrollbar { display:none; }
     }
     .main-content { grid-column:2; position:relative; z-index:3; }
-    .avatar-wrap { width:190px; height:190px; border-radius:50%; overflow:hidden; border:3px solid var(--border); margin-bottom:1.2rem; background:var(--bg-surface); box-shadow:0 8px 24px rgba(0,0,0,.45); }
+    .avatar-wrap { width:185px; height:185px; border-radius:50%; overflow:hidden; border:3px solid var(--border); margin-bottom:1.05rem; background:var(--bg-surface); box-shadow:0 8px 24px rgba(0,0,0,.45); }
     .avatar-wrap img { width:100%; height:100%; object-fit:cover; object-position:center 15%; display:block; }
-    .author-name { font-family:var(--font-serif); font-size:1.64rem; font-weight:700; margin:0 0 .35rem; color:var(--text-main); line-height:1.25; }
-    .author-role { font-size:1.0rem; color:var(--text-muted); margin:0 0 1.05rem; line-height:1.45; }
-    .author-meta { list-style:none; padding:0; margin:0 0 1.35rem; font-size:.95rem; color:var(--text-muted); }
-    .author-meta li { display:flex; align-items:flex-start; gap:.55rem; margin-bottom:.55rem; }
-    .sidebar-links { display:flex; flex-direction:column; gap:.62rem; }
-    .btn-link { display:inline-flex; align-items:center; gap:.6rem; padding:.56rem .95rem; font-size:.95rem; font-weight:500; border-radius:6px; border:1px solid var(--border); background:rgba(20,25,34,.94); color:var(--text-main); transition:all .15s ease; }
+    .author-name { font-family:var(--font-serif); font-size:1.6rem; font-weight:700; margin:0 0 .3rem; color:var(--text-main); line-height:1.25; }
+    .author-role { font-size:.98rem; color:var(--text-muted); margin:0 0 .85rem; line-height:1.42; }
+    .author-meta { list-style:none; padding:0; margin:0 0 1.05rem; font-size:.93rem; color:var(--text-muted); }
+    .author-meta li { display:flex; align-items:flex-start; gap:.55rem; margin-bottom:.45rem; }
+    .sidebar-links { display:flex; flex-direction:column; gap:.5rem; }
+    .btn-link { display:inline-flex; align-items:center; gap:.6rem; padding:.48rem .9rem; font-size:.93rem; font-weight:500; border-radius:6px; border:1px solid var(--border); background:rgba(20,25,34,.94); color:var(--text-main); transition:all .15s ease; }
     .btn-link:hover { background:var(--bg-surface-hover); border-color:var(--accent); color:var(--accent); text-decoration:none; }
     .btn-link svg { width:16px; height:16px; flex-shrink:0; color:var(--accent); }
 
@@ -234,9 +235,15 @@
       }
       .main-content { grid-column:auto; background:rgba(13,17,23,.78); padding:1rem; border-radius:8px; }
       .page-container { grid-template-columns:1fr; gap:2rem; margin-top:1.5rem; }
-      .sidebar { position:static; width:auto; left:auto; top:auto; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
+      .sidebar { position:static; width:auto; max-height:none; overflow:visible; left:auto; top:auto; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
       .avatar-wrap { width:145px; height:145px; }
-      .sidebar-links { flex-direction:row; flex-wrap:wrap; }
+      .sidebar-links { flex-direction:row; flex-wrap:wrap; gap:.5rem; }
+      .sidebar-links .btn-link { font-size:.88rem; padding:.46rem .8rem; }
+    }
+    @media (max-width:440px) {
+      body { padding-top:8.9rem; }
+      .site-nav { gap:.4rem .75rem; justify-content:flex-start; }
+      .sidebar-links .btn-link { width:100%; }
       .news-list li { grid-template-columns:1fr; gap:.2rem; }
       .cv-frame-wrap { height:600px; }
     }
@@ -460,9 +467,10 @@
       <p class="author-role">Ph.D. Candidate in Economics<br>Ca' Foscari University of Venice</p>
       <ul class="author-meta"><li><a href="https://www.google.com/maps/search/?api=1&amp;query=Department+of+Economics+Ca+Foscari+San+Giobbe+Cannaregio+873+30121+Venice+Italy" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.45em;color:inherit;text-decoration:none;font-size:0.94em"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:1.15em;height:1.15em;flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Department of Economics, San Giobbe, Cannaregio 873, 30121, Venice (IT)</span></a></li></ul>
       <div class="sidebar-links">
-        <a class="btn-link" href="https://scholar.google.com/citations?user=ndCsE2gAAAAJ&amp;hl=it" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422A12.08 12.08 0 0118.825 17.1A11.95 11.95 0 0012 20.055a11.95 11.95 0 00-6.824-2.998A12.08 12.08 0 015.84 10.58L12 14z"/></svg>Google Scholar</a>
         <a class="btn-link" href="mailto:marco.bidoia@unive.it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>marco.bidoia@unive.it</a>
         <a class="btn-link" href="https://www.unive.it/web/en/19197/people/27615596?cHash=47ea36ca4e74b96e4f21bf356e5c0370e521c1f81a9fcaf562d91e10b38448cd" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="11.5" fill="#ac0033"/><text x="11.4" y="12" dy=".36em" text-anchor="middle" fill="#fff" style="font:700 10.5px Helvetica,Arial,sans-serif">CF</text></svg>Ca' Foscari Profile</a>
+        <a class="btn-link" href="https://econpapers.repec.org/RAS/pbi456.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>EconPapers / RePEc</a>
+        <a class="btn-link" href="https://scholar.google.com/citations?user=ndCsE2gAAAAJ&amp;hl=it" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422A12.08 12.08 0 0118.825 17.1A11.95 11.95 0 0012 20.055a11.95 11.95 0 00-6.824-2.998A12.08 12.08 0 015.84 10.58L12 14z"/></svg>Google Scholar</a>
         <a class="btn-link" href="https://www.linkedin.com/in/marco-bidoia-662b64194/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
       </div>
     </aside>
@@ -593,7 +601,7 @@
         sidebar.style.top = '';
         return;
       }
-      const baseTop = 5.6 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const baseTop = 5.1 * parseFloat(getComputedStyle(document.documentElement).fontSize);
       const sidebarHeight = sidebar.offsetHeight;
       const footerTop = footer.getBoundingClientRect().top;
       const maxTop = footerTop - sidebarHeight - 20;
